@@ -1,0 +1,103 @@
+﻿@model resistancecalculator.Models.CalculatorViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>Ohm Calculator</h1>
+    <p class="lead">Resistance Calculator</p>
+        
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Enter the colors of the resistor to calculate the resistance </h2>
+        <p>
+            
+        </p>
+    </div>
+    <div class="col-md-12">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            
+            <hr />
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.bandAColor, new {@class = "col-md-2 control-label"})
+                <div  valign="middle" class="col-md-10">
+                    @*@Html.TextBoxFor(m => m.bandAColor, new {@class = "form-control"})*@
+                    @Html.DropDownListFor(m => m.bandAColor,
+                Model.BandInfo.Where(x=>x.SignificantFigures!=null).Select(item => new SelectListItem
+                {
+                    Value = item.Color.ToString(),
+                    Text = item.Color.ToString(),
+                    Selected = "select" == "Red"
+                }))
+                </div>
+            </div>
+            <div>
+            @*@Html.DropDownListFor(m=>m.bandAColor,
+                    new SelectList(Model.BandInfo,"Color","Color"),
+                    "Select Color" )
+                ,
+                    new { @class = "form-control" })*@
+                
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.bandBColor, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @*@Html.TextBoxFor(m => m.bandBColor, new { @class = "form-control" })*@
+                    @Html.DropDownListFor(m => m.bandBColor,
+                Model.BandInfo.Where(x => x.SignificantFigures != null).Select(item => new SelectListItem
+                {
+                    Value = item.Color.ToString(),
+                    Text = item.Color.ToString(),
+                    Selected = "select" == "Red"
+                }))
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.bandCColor, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @*@Html.TextBoxFor(m => m.bandCColor, new {@class = "form-control"})*@
+                    @Html.DropDownListFor(m => m.bandCColor,
+                Model.BandInfo.Where(x => x.Multiplier <= 10000000).Select(item => new SelectListItem
+                {
+                    Value = item.Color.ToString(),
+                    Text = item.Color.ToString(),
+                    Selected = "select" == "Red"
+                }))
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.bandDColor, new {@class = "col-md-2 control-label"})
+                <div class="col-md-10">
+                    @*@Html.TextBoxFor(m => m.bandDColor, new { @class = "form-control" })*@
+                    @Html.DropDownListFor(m => m.bandDColor,
+                        Model.BandInfo.Select(item => new SelectListItem
+                        {
+                            Value = item.Color.ToString(),
+                            Text = item.Color.ToString(),
+                            Selected = "select" == "Red"
+                        }))
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-md-2 control-label">Resistance Value (in Ohms)</label>
+                
+                <div class="col-md-10">
+                    <b>@Model.OhmValue</b>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" class="btn btn-default" value="Calculate" />
+                </div>
+            </div>
+        }
+    </div>
+
+    
+</div>
